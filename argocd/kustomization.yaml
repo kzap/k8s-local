@@ -4,4 +4,5 @@ namespace: argocd
 resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/core-install.yaml
 - projects.yaml
+- apps/argocd.yaml
 - apps/nginx-ingress.yaml
