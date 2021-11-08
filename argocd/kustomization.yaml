@@ -10,3 +10,4 @@ resources:
 - apps/sealed-secrets.yaml
 - apps/linkerd-bootstrap.yaml
 - apps/linkerd.yaml
+- apps/linkerd-emojivoto.yaml
