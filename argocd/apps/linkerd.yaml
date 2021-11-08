@@ -11,7 +11,7 @@ spec:
     targetRevision: 2.11.1
     helm:
       parameters:
-      - name: global.identityTrustAnchorsPEM
+      - name: identityTrustAnchorsPEM
         value: |
           -----BEGIN CERTIFICATE-----
           MIIBjTCCATOgAwIBAgIQSWvZEYJDNv3ZMewEdaxZBzAKBggqhkjOPQQDAjAlMSMw
