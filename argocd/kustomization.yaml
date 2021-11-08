@@ -6,3 +6,5 @@ resources:
 - projects.yaml
 - apps/argocd.yaml
 - apps/nginx-ingress.yaml
+- apps/cert-manager.yaml
+- apps/sealed-secrets.yaml
