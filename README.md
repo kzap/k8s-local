@@ -5,7 +5,6 @@ This sets up a local Kubernetes cluster using KinD (Kubernetes in Docker) and in
 - argocd (argocd syncs itself!)
 - nginx-ingress
 - cert-manager
-- sealed-secrets
 - linkerd
 
 ## Getting Started
