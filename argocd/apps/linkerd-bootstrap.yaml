@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-bootstrap
+  namespace: argocd
+spec:
+  destination:
+    namespace: linkerd
+    server: https://kubernetes.default.svc
+  project: core-services
+  source:
+    path: linkerd
+    repoURL: https://github.com/kzap/k8s-local.git
+  syncPolicy:
+    automated: {}
+    syncOptions: # Sync options which modifies sync behavior
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.

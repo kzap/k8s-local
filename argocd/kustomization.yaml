@@ -8,3 +8,5 @@ resources:
 - apps/nginx-ingress.yaml
 - apps/cert-manager.yaml
 - apps/sealed-secrets.yaml
+- apps/linkerd-bootstrap.yaml
+- apps/linkerd.yaml
