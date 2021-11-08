@@ -12,7 +12,6 @@ spec:
     path: argocd
     repoURL: https://github.com/kzap/k8s-local.git
   syncPolicy:
-    automated:
-      prune: true
+    automated: {}
     syncOptions: # Sync options which modifies sync behavior
     - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
