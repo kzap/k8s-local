@@ -11,4 +11,4 @@ spec:
   - namespace: '*'
     server: https://kubernetes.default.svc
   sourceRepos:
-  - https://github.com/kzap/k8s-local.git
+  - '*'
