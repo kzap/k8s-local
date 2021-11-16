@@ -1,4 +1,4 @@
 crossplane:
   provider:
     packages:
-      - "crossplane-contrib/provider-terraform:v0.1.2"
+      - "crossplane/provider-terraform:v0.1.2"
