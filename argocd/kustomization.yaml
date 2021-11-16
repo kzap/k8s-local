@@ -11,3 +11,4 @@ resources:
 - apps/linkerd-bootstrap.yaml
 - apps/linkerd.yaml
 - apps/linkerd-emojivoto.yaml
+- apps/crossplane.yaml

@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane
+  namespace: argocd
+spec:
+  project: core-services
+  source:
+    repoURL: https://github.com/kzap/k8s-local.git
+    path: crossplane
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    namespace: crossplane-system
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: {}
+    syncOptions: # Sync options which modifies sync behavior
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
