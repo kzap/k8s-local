@@ -1,2 +1,4 @@
 crossplane:
-  replicas: 2
+  provider:
+    packages:
+      - "crossplane-contrib/provider-terraform:v0.1.2"
