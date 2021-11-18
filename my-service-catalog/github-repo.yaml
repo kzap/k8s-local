@@ -1,0 +1,19 @@
+apiVersion: repositories.github.crossplane.io/v1alpha1
+kind: Repository
+metadata:
+  name: my-service-github-provider
+spec:
+  forProvider:
+    owner: mydev-org
+    org: mydev-org
+    description: "Test repo created using Crossplane GitHub Provider"
+    homepage: https://mydev.org
+    hasPages: false
+    hasProjects: false
+    hasWiki: false
+    licenseTemplate: MIT
+    gitignoreTemplate: Terraform
+    deleteBranchOnMerge: true
+
+  providerConfigRef:
+    name: github-kzapkzap

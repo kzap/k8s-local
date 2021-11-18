@@ -1,12 +1,15 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
-  name: my-service-github
+  name: my-service-github-repo
   annotations:
     # The terraform workspace will be named 'myworkspace'. If you omit this
     # annotation it would be derived from metadata.name - e.g. 'example-remote'.
-    crossplane.io/external-name: my-service-github
+    crossplane.io/external-name: my-service-github-repo
 spec:
+  providerConfigRef:
+    name: github-kzapkzap
+  
   forProvider:
     # Any module supported by terraform init -from-module, for example a git
     # repository. You can also specify a simple main.tf inline; see
@@ -17,8 +20,8 @@ spec:
     # Variables can be specified inline.
     vars:
     - key: name
-      value: my-service-test
-    
+      value: my-service-tf-provider
+  
   # All Terraform outputs are written to the connection secret.
   writeConnectionSecretToRef:
     namespace: my-service

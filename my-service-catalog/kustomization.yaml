@@ -3,5 +3,7 @@ kind: Kustomization
 namespace: my-service
 resources:
 - ns.yaml
-- provider-config.yaml
-- crossplane-terraform-repo.yaml
+- github-provider-config.yaml
+- github-repo.yaml
+- tf-provider-config.yaml
+- tf-workspace-github-repo.yaml
