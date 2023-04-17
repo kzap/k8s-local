@@ -8,7 +8,7 @@ resources:
 - apps/argocd.yaml
 - apps/nginx-ingress.yaml
 - apps/cert-manager.yaml
-- apps/linkerd-bootstrap.yaml
-- apps/linkerd.yaml
+#- apps/linkerd-bootstrap.yaml
+#- apps/linkerd.yaml
 - apps/linkerd-emojivoto.yaml
-- apps/crossplane.yaml
+#- apps/crossplane.yaml

@@ -18,7 +18,7 @@ This sets up a local Kubernetes cluster using KinD (Kubernetes in Docker) and in
 - Create the KinD cluster from the config:
 
     ```sh
-    kind create cluster --config ./kind/v1.20-config.yaml
+    kind create cluster --config ./kind/v1.25-config.yaml
     ```
 
 - Install ArgoCD using `kustomize` so it can fetch all the other applications
