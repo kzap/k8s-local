@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: linkerd-emojivoto
+  name: echoserver
   namespace: argocd
 spec:
   destination:
-    namespace: emojivoto
+    namespace: echoserver
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: linkerd/emojivoto
+    path: echoserver
     repoURL: https://github.com/kzap/k8s-local.git
   syncPolicy:
     automated:
