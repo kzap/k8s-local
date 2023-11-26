@@ -1,0 +1,86 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    # Makes ArgoCD Sync only compare manifests in the paths given below. Can be relative or absolute paths.
+    # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/high_availability/#webhook-and-manifest-paths-annotation
+    argocd.argoproj.io/manifest-generate-paths: .
+  name: argocd-bootstrap
+  namespace: argocd
+spec:
+  project: argocd
+  source:
+    chart: argocd-apps
+    targetRevision: 1.4.1
+    repoURL: https://argoproj.github.io/argo-helm
+    helm:
+      # Ref: https://github.com/argoproj/argo-helm/blob/argocd-apps-1.4.1/charts/argocd-app/values.yaml
+      valuesObject:
+        # -- Deploy Argo CD Projects within this helm release
+        # @default -- `[]` (See [values.yaml])
+        ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+        projects:
+          - name: argocd
+            namespace: argocd
+            sourceRepos:
+              - '*'
+            destinations:
+              - namespace: argocd
+                server: https://kubernetes.default.svc
+            clusterResourceWhitelist:
+              - group: "*"
+                kind: "*"
+          - name: core-services
+            namespace: argocd
+            sourceRepos:
+              - '*'
+            destinations:
+              - namespace: '*'
+                server: https://kubernetes.default.svc
+            clusterResourceWhitelist:
+              - group: "*"
+                kind: "*"
+          - name: default
+            namespace: argocd
+            sourceRepos:
+              - '*'
+            destinations:
+              - namespace: '*'
+                server: https://kubernetes.default.svc
+            clusterResourceWhitelist:
+              - group: "*"
+                kind: "*"
+
+        # -- Deploy Argo CD Applications within this helm release
+        # @default -- `[]` (See [values.yaml])
+        ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+        applications:
+          - name: argocd-bootstrap-apps
+            namespace: argocd
+            project: argocd
+            additionalAnnotations:
+              # Makes ArgoCD Sync only compare manifests in the paths given below. Can be relative or absolute paths.
+              # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/high_availability/#webhook-and-manifest-paths-annotation
+              argocd.argoproj.io/manifest-generate-paths: .
+            source:
+              repoURL: https://github.com/kzap/k8s-local.git
+              path: argocd/apps
+              directory:
+                recurse: true
+            destination:
+              server: https://kubernetes.default.svc
+              namespace: argocd
+            syncPolicy:
+              automated:
+                prune: true
+            info:
+              - name: url
+                value: https://github.com/kzap/k8s-local/tree/main/argocd/apps
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions: # Sync options which modifies sync behavior
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.

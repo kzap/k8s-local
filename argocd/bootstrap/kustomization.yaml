@@ -2,7 +2,61 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: argocd
 resources:
-- ns.yaml
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.9.2/manifests/core-install.yaml
-- projects.yaml
-- argocd-app-bootstrap.yaml
+  - ns.yaml
+helmCharts:
+  - name: argo-cd
+    # if releaseName == argocd then the deployment names will be argocd-server, argocd-dex-server, etc.
+    releaseName: argocd
+    version: 5.51.4
+    repo: https://argoproj.github.io/argo-helm
+    includeCRDs: true
+    # Ref: https://github.com/argoproj/argo-helm/blob/argo-cd-5.51.4/charts/argo-cd/values.yaml
+    valuesInline:
+      ## Dex
+      dex:
+        # -- Enable dex
+        enabled: false
+      ## Argo Configs
+      configs:        
+        # General Argo CD configuration
+        ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+        cm:      
+          # -- Timeout to discover if a new manifests version got published to the repository
+          # Quick reconciliation to bootstrap
+          timeout.reconciliation: 5s
+  - name: argocd-apps
+    releaseName: argocd-apps
+    version: 1.4.1
+    repo: https://argoproj.github.io/argo-helm
+    valuesInline:
+      # -- Deploy Argo CD Projects within this helm release
+      # @default -- `[]` (See [values.yaml])
+      ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+      projects:
+        - name: argocd
+          namespace: argocd
+          sourceRepos:
+            - '*'
+          destinations:
+            - namespace: argocd
+              server: https://kubernetes.default.svc
+          clusterResourceWhitelist:
+            - group: "*"
+              kind: "*"
+      # -- Deploy Argo CD Applications within this helm release
+      # @default -- `[]` (See [values.yaml])
+      ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+      applications:
+        - name: argocd-bootstrap-apps
+          namespace: argocd
+          project: argocd
+          source:
+            repoURL: https://github.com/kzap/k8s-local.git
+            path: argocd/apps
+            directory:
+              recurse: true
+          destination:
+            server: https://kubernetes.default.svc
+            namespace: argocd
+          syncPolicy:
+            automated: {}

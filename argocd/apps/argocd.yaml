@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    # Makes ArgoCD Sync only compare manifests in the paths given below. Can be relative or absolute paths.
+    # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/high_availability/#webhook-and-manifest-paths-annotation
+    argocd.argoproj.io/manifest-generate-paths: .
+  name: argo-cd
+  namespace: argocd
+spec:
+  project: argocd
+  source:
+    chart: argo-cd
+    targetRevision: 5.51.4
+    repoURL: https://argoproj.github.io/argo-helm
+    helm:
+      # if releaseName == argocd then the deployment names will be argocd-server, argocd-dex-server, etc.
+      releaseName: argocd
+      # Ref: https://github.com/argoproj/argo-helm/blob/argo-cd-5.51.4/charts/argo-cd/values.yaml
+      valuesObject:
+        ## Dex
+        dex:
+          # -- Enable dex
+          enabled: false
+        ## Argo Configs
+        configs:
+          # General Argo CD configuration
+          ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+          cm:      
+            # -- Timeout to discover if a new manifests version got published to the repository
+            # Quick reconciliation for local development
+            timeout.reconciliation: 30s
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions: # Sync options which modifies sync behavior
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
