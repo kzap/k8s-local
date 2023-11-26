@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd-apps-bootstrap
   namespace: argocd
 spec:
   destination:
@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: core-services
   source:
-    path: argocd
+    path: argocd/apps
     repoURL: https://github.com/kzap/k8s-local.git
   syncPolicy:
     automated: {}

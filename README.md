@@ -24,5 +24,5 @@ This sets up a local Kubernetes cluster using KinD (Kubernetes in Docker) and in
 - Install ArgoCD using `kustomize` so it can fetch all the other applications
 
     ```sh
-    kubectl apply -k ./argocd
+    kubectl apply -k ./argocd/bootstrap
     ```
