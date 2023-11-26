@@ -7,7 +7,7 @@ containerdConfigPatches:
     endpoint = ["http://kind-registry:5000"]
 nodes:
 - role: control-plane
-  image: kindest/node:v1.20.7
+  image: kindest/node:v1.20.15
   kubeadmConfigPatches:
   - |
     kind: InitConfiguration
